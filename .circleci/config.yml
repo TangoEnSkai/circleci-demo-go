@@ -48,17 +48,17 @@ jobs:
     executor: golang
     steps:
       - run:
-        name: run test
-        command: |
-          make test
+          name: run test
+          command: |
+            make test
 
   lint:
     executor: golang
     steps:
       - run:
-        name: run lint tools
-        command: |
-          make lint
+          name: run lint tools
+          command: |
+            make lint
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
