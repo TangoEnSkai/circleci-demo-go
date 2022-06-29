@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+variables:
+ - working_dir: &working_dir ~repo
+
 executors:
   golang:
     resource_class: large
