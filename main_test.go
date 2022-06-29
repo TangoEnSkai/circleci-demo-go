@@ -17,7 +17,7 @@ func TestIndexHandler(t *testing.T) {
 		wantErr    bool
 		err        error
 	}{
-		"test one": {
+		"successfuly handle get with ok": {
 			req: func() *http.Request {
 				req, err := http.NewRequest("GET", "/", nil)
 				if err != nil {
