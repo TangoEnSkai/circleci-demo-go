@@ -1,6 +1,5 @@
 .PHONY: dependencies
 dependencies:
-	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2
 	@go mod download
 	@go mod tidy
 
