@@ -34,9 +34,12 @@ jobs:
           keys: 
             - *cache_tag
       - run:
-          name: download dependencies
-          command: |
-            make dependencies
+          name: instal dependencies
+          command: go mod download
+      - save_cache:
+          key: *cache_tag
+          paths:
+            - "/go/pkg/mod"
 
   build:
     # In which directory to run this step. 
@@ -52,14 +55,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - go-mod-v4-{{ checksum "go.sum" }}
-      - run:
-          name: Install Dependencies
-          command: go mod download
-      - save_cache:
-          key: go-mod-v4-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
+            - *cache_tag
       - run:
           name: Run tests
           command: |
