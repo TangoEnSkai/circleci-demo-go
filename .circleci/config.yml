@@ -3,7 +3,7 @@
 version: 2.1
 
 variables:
-  - working_dir: &working_dir ~/repo
+  - working_dir: &working_dir ~repo
   - cache_tag: &cache_tag go-mod-v4-{{ checksum "go.sum" }}
 
 executors:
@@ -41,7 +41,7 @@ jobs:
   build:
     # In which directory to run this step. 
     # Will be interpreted relative to the working_directory of the job). (default: .)
-    working_directory: ~/repo
+    working_directory: ~repo
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
