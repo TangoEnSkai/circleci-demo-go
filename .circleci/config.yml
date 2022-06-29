@@ -4,6 +4,7 @@ version: 2.1
 
 variables:
  - working_dir: &working_dir ~repo
+ - cache_tag: &cache_tag go-mod-v4-{{ checksum "go.sum" }}
 
 executors:
   golang:
@@ -14,9 +15,28 @@ executors:
           GOFLAGS: -mod=vendor
           GOMAXPROCS: "4"
 
+commands:
+  setup:
+    description: "runs code check, setups keys, downloads deps"
+    steps:
+      - checkout
+      - attach_workspace:
+          at: *working_dir
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
+  dependencies:
+    executor: golang
+    steps:
+      - checkout
+      - restore_cache:
+          keys: *cache_tag
+      - run:
+          name: download dependencies
+          command: |
+            make dependencies
+
   build:
     # In which directory to run this step. 
     # Will be interpreted relative to the working_directory of the job). (default: .)
@@ -69,6 +89,32 @@ workflows:
   build-and-test: # This is the name of the workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build
-      - test
-      - lint
+      - dependencies:
+          post-steps:
+            - save_cache:
+                key: *cache_tag
+                paths:
+                  - vendor
+                  - bin
+            - persist_to_workspace:
+                root: *working_dir
+                paths:
+                  - vendor
+                  - bin
+        
+      - build:
+          requires:
+            - dependencies
+          pre-steps:
+            - setup
+    
+      - test:
+          requires:
+            - dependencies
+          pre-steps:
+            - setup
+      - lint:
+          requires:
+            - dependencies
+          pre-steps:
+            - setup
