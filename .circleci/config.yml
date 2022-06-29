@@ -3,8 +3,8 @@
 version: 2.1
 
 variables:
- - working_dir: &working_dir ~repo
- - cache_tag: &cache_tag go-mod-v4-{{ checksum "go.sum" }}
+  - working_dir: &working_dir ~/repo
+  - cache_tag: &cache_tag go-mod-v4-{{ checksum "go.sum" }}
 
 executors:
   golang:
