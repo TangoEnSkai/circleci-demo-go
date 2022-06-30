@@ -3,7 +3,6 @@
 version: 2.1
 
 variables:
-  - working_dir: &working_dir ~repo
   - cache_tag: &cache_tag go-mod-v4-{{ checksum "go.sum" }}
 
 executors:
@@ -21,7 +20,7 @@ commands:
     steps:
       - checkout
       - attach_workspace:
-          at: *working_dir
+          at: . # relative path to our working directory
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -94,7 +93,7 @@ workflows:
                   - vendor
                   - bin
             - persist_to_workspace:
-                root: *working_dir
+                root: . # relative path to our working directory
                 paths:
                   - vendor
                   - bin
