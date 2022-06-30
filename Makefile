@@ -1,5 +1,6 @@
 .PHONY: dependencies
 dependencies:
+	@go mod vendor
 	@go mod download
 	@go mod tidy
 

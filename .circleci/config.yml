@@ -34,24 +34,23 @@ jobs:
             - *cache_tag
       - run:
           name: instal dependencies
-          command: go mod download
+          command: make dependencies
       - save_cache:
           key: *cache_tag
           paths:
             - "/go/pkg/mod"
 
   build:
-    # In which directory to run this step. 
-    # Will be interpreted relative to the working_directory of the job). (default: .)
-    working_directory: ~repo
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    # CircleCI Go images available at: https://circleci.com/developer/images/image/cimg/go
     docker:
-      - image: circleci/golang:1.15.8
+      - image: cimg/go:1.18
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
+      - run:
+          name: show go version
+          command: go version
       - restore_cache:
           keys:
             - *cache_tag
