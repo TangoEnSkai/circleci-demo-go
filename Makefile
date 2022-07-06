@@ -14,7 +14,7 @@ lint-fix:
 
 .PHONY: test
 test:
-	@go test -race -cover -count 1 ./...
+	@go test -v -race -cover -count 1 ./...
 
 .PHONY: coverage
 coverage:
