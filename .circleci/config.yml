@@ -130,3 +130,5 @@ workflows:
       - deploy:
           requires:
             - hold
+          pre-steps:
+            - setup
