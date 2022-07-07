@@ -78,6 +78,14 @@ jobs:
           command: |
             make lint
 
+  deploy:
+    executor: golang
+    steps:
+      - run:
+          name: deploy to gcp
+          command: |
+            make deploy
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -113,3 +121,12 @@ workflows:
             - dependencies
           pre-steps:
             - setup
+      - hold:
+          type: approval
+          requires:
+            - build
+            - test
+            - lint
+      - deploy:
+          requires:
+            - hold

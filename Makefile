@@ -19,3 +19,8 @@ test:
 .PHONY: coverage
 coverage:
 	@go test -race -count 1 -coverpkg=./... -coverprofile=coverage.txt ./...
+
+.PHONY: deploy
+deploy:
+	@echo deploying to gcp...
+	@echo deployed!
