@@ -103,7 +103,7 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  build-and-test: # This is the name of the workflow.
+  build-and-test: # name of the workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - dependencies:
@@ -113,7 +113,7 @@ workflows:
                 paths:
                   - vendor
                   - bin
-            - persist_to_workspace:
+            - persist_to_workspace: # Special step used to persist a temporary file to be used by another job in the workflow
                 root: . # relative path to our working directory
                 paths:
                   - vendor
@@ -149,5 +149,3 @@ workflows:
       - deploy:
           requires:
             - hold
-          pre-steps:
-            - setup
