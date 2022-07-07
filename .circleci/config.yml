@@ -70,6 +70,20 @@ jobs:
           command: |
             make test
 
+  coverage:
+    executor: golang
+    steps:
+      - run:
+          name: create coverage report
+          command: |
+            make coverage
+      - run:
+          name: upload coverages to codecov
+          command: |
+            curl -Os https://uploader.codecov.io/latest/linux/codecov
+            chmod +x codecov
+            ./codecov
+
   lint:
     executor: golang
     steps:
@@ -112,6 +126,11 @@ workflows:
             - setup
     
       - test:
+          requires:
+            - dependencies
+          pre-steps:
+            - setup
+      - coverage:
           requires:
             - dependencies
           pre-steps:
